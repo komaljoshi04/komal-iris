@@ -1,86 +1,134 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Iris Flower Prediction</title>
-
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f3;
         }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
         h1 {
-            color: #333;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
+            text-align: center;
+            color: #2c3e50;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
         }
+
+        p.description {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
         input[type="submit"] {
             background-color: #4CAF50;
             color: white;
-            padding: 10px 15px;
+            padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
+
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+
         .result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e7f3fe;
-            border-left: 6px solid #2196F3;
-        }
-        #cennter{
+            margin-top: 30px;
             text-align: center;
         }
-    </style>
 
+        .result h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .result img {
+            margin-top: 20px;
+            width: 200px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+    </style>
 </head>
 <body>
-   <div id="cennter"> <h1>IRIS Flower Species Prediction</h1>
-    <p>Enter the features of the flower to predict its species.</p> </div>
-<form action="/predict" method="post">
-    <label for="sepal_length">Enter sepal_length:</label>  <br>
-    <input type="text" name="sepal_length" required><br>
-    <label for="sepal_width">Enter sepal_width:</label>  <br>
-    <input type="text" name="sepal_width" required><br>
-    <label for="petal_length">Enter petal_length:</label>  <br>
-    <input type="text" name="petal_length" required><br>
-    <label for="petal_width">Enter petal_width:</label>  <br>
-    <input type="text" name="petal_width" required><br><br>
+    <div class="container">
+        <h1>IRIS Flower Species Prediction</h1>
+        <p class="description">Enter the features of the flower to predict its species.</p>
 
-    <input type="submit" value="Submit">
+        <form action="/predict" method="post">
+            <label for="sepal_length">Sepal Length:</label>
+            <input type="text" name="sepal_length" required>
 
-</form>
+            <label for="sepal_width">Sepal Width:</label>
+            <input type="text" name="sepal_width" required>
+
+            <label for="petal_length">Petal Length:</label>
+            <input type="text" name="petal_length" required>
+
+            <label for="petal_width">Petal Width:</label>
+            <input type="text" name="petal_width" required>
+
+            <input type="submit" value="Predict Species">
+        </form>
+
         {% if data %}
+        <div class="result">
             <h2>Prediction Result</h2>
             <p>The predicted flower species is: <strong>{{ data }}</strong></p>
+
+            {% if data=="setosa" %}
+                <img src="https://cdn-uploads.huggingface.co/production/uploads/6474405f90330355db146c76/iVXMOLPdx1ctqWnvnFED_.png" alt="IRIS SETOSA">
+            {% elif data=="versicolor" %}
+                <img src="https://cdn.glitch.global/8599b2d2-58ab-4d42-98f5-97fa4c6bad04/Iris%20versicolor.png?v=1680866854461" alt="IRIS VERSICOLOR">
+            {% elif data=="virginica" %}
+                <img src="https://cdn.glitch.global/8599b2d2-58ab-4d42-98f5-97fa4c6bad04/Iris%20Virginica.png?v=1680866857022" alt="IRIS VIRGINICA">
+            {% endif %}
+        </div>
         {% endif %}
-<center>
-        {% if data=="setosa" %}
-            <img src="https://cdn-uploads.huggingface.co/production/uploads/6474405f90330355db146c76/iVXMOLPdx1ctqWnvnFED_.png" alt="IRIS SETOSA" width="200" height="200">
-        {% elif data=="versicolor" %}
-            <img src="https://cdn.glitch.global/8599b2d2-58ab-4d42-98f5-97fa4c6bad04/Iris%20versicolor.png?v=1680866854461" alt="IRIS VERSICOLOR" width="200" height="200">
-        {% elif data=="virginica" %}
-            <img src="https://cdn.glitch.global/8599b2d2-58ab-4d42-98f5-97fa4c6bad04/Iris%20Virginica.png?v=1680866857022" alt="IRIS VIRGINICA" width="200" height="200">
-        {% endif %}
-  </center>
+    </div>
 </body>
-
-
-
-
 </html>
